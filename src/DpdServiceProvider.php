@@ -19,11 +19,6 @@ class DpdServiceProvider extends ServiceProvider {
 
     public function register()
     {
-        // printerLanguage config deprecation message
-        if (config('dpd.printerLanguage') != '') {
-            Log::info('DPD: Config value "printerLanguage" is deprecated. Please update your config!');
-        }
-
         $this->mergeConfigFrom(
             __DIR__.'/../config/dpd.php', 'dpd'
         );
@@ -52,12 +47,9 @@ class DpdServiceProvider extends ServiceProvider {
 
             // Set the printer options
             $shipment->setPrintOptions([
-                'printOption' => [
-                    // printerLanguage is deprecated but should still work.
-                    'outputFormat' =>  config('dpd.outputFormat') == "" ? config('dpd.printerLanguage') : config('dpd.outputFormat'),
-                    'paperFormat' => config('dpd.paperFormat'),
-                    'startPosition' => config('dpd.startPosition')
-                ]
+                'printerLanguage' => config('dpd.printerLanguage'),
+                'paperFormat' => config('dpd.paperFormat'),
+                'startPosition' => config('dpd.startPosition')
             ]);
 
             return $shipment;

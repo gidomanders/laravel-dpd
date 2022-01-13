@@ -23,11 +23,9 @@ class DPDShipment{
 
     protected $storeOrderMessage = [
         'printOptions' => [
-            'printOption' => [
-                'paperFormat' => null,
-                'startPosition' => null,
-                'outputFormat' => null
-            ]
+            'paperFormat' => null,
+            'printerLanguage' => null,
+            'startPosition' => null
         ],
         'order' => [
             'generalShipmentData' => [
@@ -82,8 +80,8 @@ class DPDShipment{
     protected $label = null;
     protected $airWayBills = [];
 
-    const TEST_SHIP_WSDL = 'https://public-ws-stage.dpd.com/services/ShipmentService/V4_4?wsdl';
-    const SHIP_WSDL = 'https://public-ws.dpd.com/services/ShipmentService/V4_4?wsdl';
+    const TEST_SHIP_WSDL = 'https://shipperadmintest.dpd.nl/PublicAPI/WSDL/ShipmentServiceV33.wsdl';
+    const SHIP_WSDL = 'https://wsshipper.dpd.nl/soap/WSDL/ShipmentServiceV33.wsdl';
     const SOAPHEADER_URL = 'http://dpd.com/common/service/types/Authentication/2.0';
     const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?locale=:lang&query=:awb';
 
@@ -114,12 +112,12 @@ class DPDShipment{
             throw new DPDException('DPD: Parcel array not complete');
         }
 
-        if ((int) $array['length'] < 100) {
+        if ((int) $array['length'] < 1) {
             Log::emergency('DPD: Minimum value for "length" is 100.');
             throw new DPDException('DPD: Minimum value for "length" is 100.');
         }
 
-        if ((int) $array['width'] < 100) {
+        if ((int) $array['width'] < 1) {
             Log::emergency('DPD: Minimum value for "width" is 100.');
             throw new DPDException('DPD: Minimum value for "width" is 100.');
         }
@@ -194,8 +192,8 @@ class DPDShipment{
                 throw new DPDException('SOAP Fehler ' . $response->orderResult->shipmentResponses->faults->message);
             }
 
-            $this->label = $response->orderResult->output->content;
-            unset($response->orderResult->output->content);
+            $this->label = $response->orderResult->parcellabelsPDF;
+            unset($response->orderResult->parcellabelsPDF);
 
             if (is_array($response->orderResult->shipmentResponses->parcelInformation)){
                 foreach($response->orderResult->shipmentResponses->parcelInformation as $parcelResponse){
@@ -221,6 +219,9 @@ class DPDShipment{
         catch (SoapFault $e)
         {
             Log::emergency('DPD: '.$e->faultstring);
+            if ($client) {
+                Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
+            }
             throw new DPDException('SOAP Fehler ' . $e->faultstring);
         }
 

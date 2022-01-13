@@ -17,8 +17,8 @@ class DPDAuthorisation{
         'token' => null
     ];
 
-    const TEST_LOGIN_WSDL = 'https://public-ws-stage.dpd.com/services/LoginService/V2_0/?wsdl';
-    const LOGIN_WSDL = 'https://public-ws.dpd.com/services/LoginService/V2_0?wsdl';
+    const TEST_LOGIN_WSDL = 'https://shipperadmintest.dpd.nl/PublicAPI/WSDL/LoginServiceV21.wsdl';
+    const LOGIN_WSDL = 'https://wsshipper.dpd.nl/soap/WSDL/LoginServiceV21.wsdl';
 
     /**
      * Get an authorisation token from the DPD webservice

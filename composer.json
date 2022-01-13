@@ -1,5 +1,5 @@
 {
-    "name": "bernhardk/laravel-dpd",
+    "name": "gidomanders/laravel-dpd",
     "description": "Laravel package for using DPD Webservices to submit shipment to dpd und retrieve its label and tracking information.",
     "keywords": ["laravel", "dpd", "dpd cloud service", "webservices"],
     "type": "library",

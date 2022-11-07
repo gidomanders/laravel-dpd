@@ -71,7 +71,8 @@ class DPDShipment{
             ],
             'productAndServiceData' => [
                 'saturdayDelivery' => false,
-                'orderType' => 'consignment'
+                'orderType' => 'consignment',
+                'guarantee' => false
             ]
         ]
     ];
@@ -300,6 +301,15 @@ class DPDShipment{
     public function setSaturdayDelivery($bool)
     {
      $this->storeOrderMessage['order']['productAndServiceData']['saturdayDelivery'] = $bool;
+    }
+
+    /**
+     * Enable guarantee delivery
+     * @param boolean $bool default false
+     */
+    public function setGuarantee($bool)
+    {
+     $this->storeOrderMessage['order']['productAndServiceData']['guarantee'] = $bool;
     }
 
     /**

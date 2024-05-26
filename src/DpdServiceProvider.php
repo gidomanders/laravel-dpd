@@ -27,6 +27,8 @@ class DpdServiceProvider extends ServiceProvider {
 
             if (config('dpd.delisId') == '...') {
                 Log::info('DPD: Package is installed, but config is not set yet. Update config at /config/dpd.php.');
+            } else {
+                Log::debug('DPD: Package is installed', [config('dpd')]);
             }
 
             $authorisation = new DPDAuthorisation([

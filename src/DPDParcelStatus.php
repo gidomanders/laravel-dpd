@@ -11,8 +11,8 @@ class DPDParcelStatus{
     protected $environment;
     protected $authorisation;
 
-    const TEST_PARCELSTATUS_WSDL = 'https://public-ws-stage.dpd.com/services/ParcelLifeCycleService/V2_0/?wsdl';
-    const PARCELSTATUS_WSDL = 'https://public-ws.dpd.com/services/ParcelLifeCycleService/V2_0/?wsdl';
+    const TEST_PARCELSTATUS_WSDL = 'https://shipperadmintest.dpd.nl/PublicAPI/WSDL/ParcelLifecycleServiceV20.wsdl';
+    const PARCELSTATUS_WSDL = 'https://wsshipper.dpd.nl/soap/WSDL/ParcelLifecycleServiceV20.wsdl';
     const SOAPHEADER_URL = 'http://dpd.com/common/service/types/Authentication/2.0';
 
     /**

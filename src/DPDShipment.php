@@ -18,7 +18,9 @@ class DPDShipment{
         'PL', 'FR', 'PT', 'GB',
         'LU', 'EE', 'CH', 'IE',
         'SK', 'LV', 'SI', 'LT',
-        'CZ', 'HU'
+        'CZ', 'HU', 'HR', 'ES',
+        'IT', 'DK', 'FI', 'SE',
+        'NO'
     ];
 
     protected $storeOrderMessage = [

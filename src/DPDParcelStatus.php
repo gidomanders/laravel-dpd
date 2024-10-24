@@ -63,7 +63,6 @@ class DPDParcelStatus{
 
             $check = (array)$response->trackingresult;
             if (empty($check)) {
-                Log::emergency('DPD: Parcel not found');
                 return array();
             }
 

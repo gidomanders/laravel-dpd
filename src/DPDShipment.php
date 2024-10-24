@@ -9,6 +9,8 @@ use Soapclient;
 
 class DPDShipment{
 
+    public $client;
+
     protected $environment;
 
     protected $authorisation;
@@ -180,14 +182,14 @@ class DPDShipment{
 
         try{
 
-            $client = new Soapclient($this->environment['shipWsdl'], $soapParams);
+            $this->client = new Soapclient($this->environment['shipWsdl'], $soapParams);
             $header = new SOAPHeader(self::SOAPHEADER_URL, 'authentication', $this->authorisation['token']);
-            $client->__setSoapHeaders($header);
-            $response = $client->storeOrders($this->storeOrderMessage);
+            $this->client->__setSoapHeaders($header);
+            $response = $original_response = $this->client->storeOrders($this->storeOrderMessage);
 
             if(config('dpd.tracing')) {
-                Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
-                Log::debug('DPD: SOAP-Response Shipment: ' . $client->__getLastResponse());
+                Log::debug('DPD: SOAP-Request Shipment: ' . $this->client->__getLastRequest());
+                Log::debug('DPD: SOAP-Response Shipment: ' . $this->client->__getLastResponse());
             }
 
             if (isset($response->orderResult->shipmentResponses->faults)){
@@ -222,8 +224,8 @@ class DPDShipment{
         catch (SoapFault $e)
         {
             Log::emergency('DPD: '.$e->faultstring);
-            if ($client) {
-                Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
+            if ($this->client) {
+                Log::debug('DPD: SOAP-Request Shipment: ' . $this->client->__getLastRequest());
             }
             throw new DPDException('SOAP Fehler ' . $e->faultstring);
         }

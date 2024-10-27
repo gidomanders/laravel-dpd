@@ -67,7 +67,7 @@ class DPDParcelStatus{
             }
 
             foreach($response->trackingresult->statusInfo as $statusInfo){
-                if ($statusInfo->isCurrentStatus){
+                if (is_object($statusInfo) && $statusInfo->isCurrentStatus){
                      return [
                         'statusCode' => $statusInfo->status,
                         'statusLabel' => $statusInfo->label->content,

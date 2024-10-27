@@ -69,8 +69,10 @@ class DPDAuthorisation{
             Log::debug('DPD: Authorisation successfull.');
         }
         catch (SoapFault $e){
-            Log::emergency('DPD: '.$e->detail->authenticationFault->errorMessage);
-            throw new DPDException('DPD authentication failed: '. $e->detail->authenticationFault->errorMessage);
+            if ($e->detail != null) {
+                Log::emergency('DPD: ' . $e->detail->authenticationFault->errorMessage);
+                throw new DPDException('DPD authentication failed: ' . $e->detail->authenticationFault->errorMessage);
+            }
         }
     }
 }

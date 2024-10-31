@@ -25,61 +25,7 @@ class DPDShipment{
         'NO'
     ];
 
-    protected $storeOrderMessage = [
-        'printOptions' => [
-            'paperFormat' => null,
-            'printerLanguage' => null,
-            'startPosition' => null
-        ],
-        'order' => [
-            'generalShipmentData' => [
-                'sendingDepot' => null,
-                'product' => null,
-                'mpsCustomerReferenceNumber1' => null,
-                'mpsCustomerReferenceNumber2' => null,
-                'sender' => [
-                    'name1' => null,
-                    'name2' => null,
-                    'street' => null,
-                    'houseNo' => null,
-                    'state' => null,
-                    'country' => null,
-                    'zipCode' => null,
-                    'city' => null,
-                    'email' => null,
-                    'phone' => null,
-                    'gln' => null,
-                    'contact' => null,
-                    'fax' => null,
-                    'customerNumber' => null,
-                ],
-                'recipient' => [
-                    'name1' => null,
-                    'name2' => null,
-                    'street' => null,
-                    'houseNo' => null,
-                    'state' => null,
-                    'country' => null,
-                    'gln' => null,
-                    'zipCode' => null,
-                    'customerNumber' => null,
-                    'contact' => null,
-                    'phone' => null,
-                    'fax' => null,
-                    'email' => null,
-                    'city' => null,
-                    'comment' => null
-                ]
-            ],
-            'parcels' => [
-            ],
-            'productAndServiceData' => [
-                'saturdayDelivery' => false,
-                'orderType' => 'consignment',
-                'guarantee' => false
-            ]
-        ]
-    ];
+    protected $storeOrderMessage = [];
 
     protected $trackingLanguage = null;
     protected $label = null;
@@ -101,7 +47,69 @@ class DPDShipment{
             'wsdlCache' => $wsdlCache,
             'shipWsdl'  => ($this->authorisation['staging'] ? self::TEST_SHIP_WSDL : self::SHIP_WSDL),
         ];
-        $this->storeOrderMessage['order']['generalShipmentData']['sendingDepot'] = $this->authorisation['token']->depot;
+        $this->startNewOrder();
+    }
+
+    /**
+     * Clear the parcels array to start a new transport
+     */
+    public function startNewOrder()
+    {
+        $this->storeOrderMessage = [
+            'printOptions' => [
+                'paperFormat' => config('dpd.paperFormat'),
+                'printerLanguage' => config('dpd.printerLanguage'),
+                'startPosition' => config('dpd.startPosition')
+            ],
+            'order' => [
+                'generalShipmentData' => [
+                    'sendingDepot' => $this->authorisation['token']->depot,
+                    'product' => null,
+                    'mpsCustomerReferenceNumber1' => null,
+                    'mpsCustomerReferenceNumber2' => null,
+                    'sender' => [
+                        'name1' => null,
+                        'name2' => null,
+                        'street' => null,
+                        'houseNo' => null,
+                        'state' => null,
+                        'country' => null,
+                        'zipCode' => null,
+                        'city' => null,
+                        'email' => null,
+                        'phone' => null,
+                        'gln' => null,
+                        'contact' => null,
+                        'fax' => null,
+                        'customerNumber' => null,
+                    ],
+                    'recipient' => [
+                        'name1' => null,
+                        'name2' => null,
+                        'street' => null,
+                        'houseNo' => null,
+                        'state' => null,
+                        'country' => null,
+                        'gln' => null,
+                        'zipCode' => null,
+                        'customerNumber' => null,
+                        'contact' => null,
+                        'phone' => null,
+                        'fax' => null,
+                        'email' => null,
+                        'city' => null,
+                        'comment' => null
+                    ]
+                ],
+                'parcels' => [
+                ],
+                'productAndServiceData' => [
+                    'saturdayDelivery' => config('dpd.saturdayDelivery'),
+                    'orderType' => 'consignment',
+                    'guarantee' => false
+                ]
+            ]
+        ];
     }
 
 

@@ -44,16 +44,6 @@ class DpdServiceProvider extends ServiceProvider {
             // Set the language for the track&trace link
             $shipment->setTrackingLanguage(config('dpd.trackingLanguage'));
 
-            // Enable saturday delivery
-            $shipment->setSaturdayDelivery(config('dpd.saturdayDelivery'));
-
-            // Set the printer options
-            $shipment->setPrintOptions([
-                'printerLanguage' => config('dpd.printerLanguage'),
-                'paperFormat' => config('dpd.paperFormat'),
-                'startPosition' => config('dpd.startPosition')
-            ]);
-
             return $shipment;
         });
 

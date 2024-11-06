@@ -29,8 +29,9 @@ class DPDParcelStatus{
 
     /**
      * Get the parcel's current status
-     * @param  string $awb
+     * @param string $awb
      * @return array
+     * @throws SoapFault
      */
     public function getStatus($awb)
     {
@@ -78,7 +79,9 @@ class DPDParcelStatus{
         }
         catch (SoapFault $e)
         {
-            Log::emergency('DPD: '.$e->faultstring);
+            if (!in_array($e->faultstring, ['Service Unavailable', "Fault occured: The element 'authentication' in namespace"])) {
+                throw $e;
+            }
         }
     }
 }

@@ -82,6 +82,7 @@ class DPDParcelStatus{
             if (!in_array($e->faultstring, ['Service Unavailable', "Fault occured: The element 'authentication' in namespace"])) {
                 throw $e;
             }
+            return array();
         }
     }
 }

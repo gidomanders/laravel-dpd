@@ -55,6 +55,7 @@ class DPDShipment{
      */
     public function startNewOrder()
     {
+        $this->airWayBills = [];
         $this->storeOrderMessage = [
             'printOptions' => [
                 'paperFormat' => config('dpd.paperFormat'),

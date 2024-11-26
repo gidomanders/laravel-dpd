@@ -79,10 +79,12 @@ class DPDParcelStatus{
         }
         catch (SoapFault $e)
         {
-            if (!in_array($e->faultstring, ['Service Unavailable', 'Fault occured: Fault occured', "Fault occured: The element 'authentication' in namespace"])) {
-                throw $e;
+            $message = $e->detail != null ? $e->detail->faults->message : $e->faultstring;
+            if ($client) {
+                Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
             }
-            return array();
+            Log::warning('DPD Parcel Status: ' . $message);
+            throw new DPDException($message);
         }
     }
 }

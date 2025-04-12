@@ -71,7 +71,7 @@ class DPDAuthorisation{
         catch (SoapFault $e){
             if ($e->detail != null) {
                 if ($e->detail->athenticationFault->errorMessage !== 'Service Unavailable') {
-                    Log::emergency('DPD: ' . $e->detail->authenticationFault->errorMessage);
+                    Log::debug('DPD: ' . $e->detail->authenticationFault->errorMessage);
                 }
                 throw new DPDException('DPD authentication failed: ' . $e->detail->authenticationFault->errorMessage);
             }

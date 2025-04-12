@@ -202,7 +202,7 @@ class DPDShipment{
             }
 
             if (isset($response->orderResult->shipmentResponses->faults)){
-                Log::emergency('DPD: '.$response->orderResult->shipmentResponses->faults->message);
+                Log::debug('DPD: '.$response->orderResult->shipmentResponses->faults->message);
                 throw new DPDException('SOAP Fehler ' . $response->orderResult->shipmentResponses->faults->message);
             }
 

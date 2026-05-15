@@ -232,7 +232,7 @@ class DPDShipment{
         }
         catch (SoapFault $e)
         {
-            $message = $e->detail != null ? $e->detail->faults->message : $e->faultstring;
+            $message = $e->detail->faults->message ?? $e->faultstring;
             Log::emergency('DPD Shipment: '.$message);
             if ($this->client) {
                 Log::debug('DPD: SOAP-Request Shipment: ' . $this->client->__getLastRequest());

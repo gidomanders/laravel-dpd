@@ -79,7 +79,7 @@ class DPDParcelStatus{
         }
         catch (SoapFault $e)
         {
-            $message = $e->detail != null ? $e->detail->faults->message : $e->faultstring;
+            $message = $e->detail->faults->message ?? $e->faultstring;
             if ($client) {
                 Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
             }
